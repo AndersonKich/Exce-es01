@@ -22,16 +22,18 @@ public class Programa {
 		Date saida = sdf.parse(teclado.next());
 
 		Reserva p = new Reserva(numeroQuarto, entrada, saida);
+		String err = p.atualizarReserva(entrada, saida);
+		System.err.println(err);
 		
 		System.out.println(p.toString());
-		System.out.println("\n\n");
-
+	
 		System.out.println("Entre com as datas para atualizar a reseva:");
 		System.out.print("Check-in: ");
 		entrada = sdf.parse(teclado.next());
 		System.out.print("Check-out: ");
 		saida = sdf.parse(teclado.next());
-		p.atualizarReserva(entrada, saida);
+		err = p.atualizarReserva(entrada, saida);
+		System.err.println(err);
 		System.out.println(p.toString());
 
 		

@@ -42,17 +42,23 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 
 	public long  duracao() {//Funcao para contar dias
-	long ent;	
-	return ent = (this.getEntrada().getTime() - this.getSaida().getTime())/(24 * 60 * 60 * 1000);//Ou 86400000 milesegundos
+	long ent ;	
+	return ent = ( this.getSaida().getTime() - this.getEntrada().getTime())/(24 * 60 * 60 * 1000);//Ou 86400000 milesegundos
 	
 	//Ou TimeUnit.DAYS.convert(ent, TimeUnit.MILLISECONDS); para converter os millisegundos para dias
 	}
 	
-	public void atualizarReserva(Date chekin, Date chekout) {
-		
-		this.entrada = chekin;
-		this.saida = chekout;
-		
+	public String atualizarReserva(Date checkin, Date checkout) {
+		Date agora = new Date();
+		if(checkin.before(agora) || checkout.before(agora)) {
+			return "So é possivel fazer rezerva para datas futuras!!!";
+		}
+		if(!checkout.after(checkin)) {
+			return "Data de entrada nao pode ser depois da data de saida!!!";
+		}
+		this.entrada = checkin;
+		this.saida = checkout;
+		return null;
 	}
 
 	@Override
