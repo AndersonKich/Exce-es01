@@ -1,11 +1,12 @@
-package entidade;
+package model.entidades;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import model.exeptions.ExcecoesPersonalizadas;
+
 public class Reserva {
 
-	
 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	private Integer numeroQuarto;
@@ -16,8 +17,13 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	public Reserva() {
 		
 	}
-
-	public Reserva(Integer numeroQuarto, Date entrada, Date saida) {
+	/**Colocar o tratamento de exceções no construtor
+	  é uma boa pratica de programação(chamada de programação defensiva)*/
+	public Reserva(Integer numeroQuarto, Date entrada, Date saida)  {
+		if(!saida.after(entrada)) {
+			throw new ExcecoesPersonalizadas("Data de entrada nao pode ser depois da data de saida!!!");
+		}
+		
 		this.numeroQuarto = numeroQuarto;
 		this.entrada = entrada;
 		this.saida = saida;
@@ -48,17 +54,17 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	//Ou TimeUnit.DAYS.convert(ent, TimeUnit.MILLISECONDS); para converter os millisegundos para dias
 	}
 	
-	public String atualizarReserva(Date checkin, Date checkout) {
+	public void atualizarReserva(Date checkin, Date checkout)  {
 		Date agora = new Date();
 		if(checkin.before(agora) || checkout.before(agora)) {
-			return "So é possivel fazer rezerva para datas futuras!!!";
+			throw new ExcecoesPersonalizadas("So é possivel fazer rezerva para datas futuras!!!");//Retorna uma exceção
 		}
 		if(!checkout.after(checkin)) {
-			return "Data de entrada nao pode ser depois da data de saida!!!";
+			throw new ExcecoesPersonalizadas("Data de entrada nao pode ser depois da data de saida!!!");
 		}
 		this.entrada = checkin;
 		this.saida = checkout;
-		return null;
+		
 	}
 
 	@Override
@@ -71,6 +77,17 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 		return sb.toString();
 	}
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
